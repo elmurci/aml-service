@@ -1,11 +1,13 @@
 import os
 import json
+import yaml
 from flask import Flask, request, abort, jsonify
 from flask_restful import Resource, Api
 from pymongo import MongoClient
 from bson.json_util import dumps
 from bson import json_util
 from bson import ObjectId
+
 
 #import from the 21 Developer Library
 from two1.lib.wallet import Wallet
@@ -24,8 +26,16 @@ class JSONEncoder(json.JSONEncoder):
             return str(o)
         return json.JSONEncoder.default(self, o)
 
+
+class ManifestService(Resource):	
+    def get(self):
+	    # Serves the app manifest to the 21 crawler.
+	    with open('manifest.yaml', 'r') as f:
+	        manifest_yaml = yaml.load(f)
+	    return json.dumps(manifest_yaml)
+
 class AmlService(Resource):
-    @payment.required(1000)
+    #@payment.required(1000)
     def post(self):
         # Get parameters
 
@@ -63,6 +73,7 @@ class AmlService(Resource):
         	return {"status": "error", "message": "error retrieving data"}
 
 api.add_resource(AmlService, '/')
+api.add_resource(ManifestService, '/manifest')
 
 if __name__ == '__main__':
     app.run(debug=True)
