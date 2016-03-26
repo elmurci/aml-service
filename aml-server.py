@@ -37,47 +37,75 @@ class ManifestService(Resource):
 	        manifest_yaml = yaml.load(f)
 	    return json.dumps(manifest_yaml)
 
+class DbService():	
+    def mongodb_conn():
+	    try:
+	        conn = MongoClient(config.mongo['connection'])
+	    except pymongo.errors.ConnectionFailure as e:
+	        print ("Could not connect to server: %s" % e)
+	    return conn  
+
+class AmlClient(Resource):
+    def get(self):
+    	return send_from_directory('static', 'aml-client.py')
+    
 class AmlService(Resource):
     @payment.required(config.payment['fee'])
-    def post(self):
+    def get(self):
 
         # Get parameters
-        if not request.json:
+        if not request.args:
         	return {"status": "error", "message": "please provide at least one filter"}
 
-        print(request.json)
-        filters =  request.json
         _filter = {}
         data = []
+        _first_name = request.args.get("first_name")
+        _last_name = request.args.get("last_name")
+        _dob = request.args.get("dob")
+        _nationality = request.args.get("nationality")
+        _group_type = request.args.get("group_type")
 
-        if "first_name" in request.json:
-        	_filter["first_name"] = filters["first_name"]
-        if "last_name" in request.json:
-        	_filter["last_name"] = filters["last_name"]
-        if "dob" in request.json:
-        	_filter["dob"] = filters["dob"]
-        if "nationality" in request.json:
-        	_filter["nationality"] = filters["nationality"]
-        if "group_type" in request.json:
-        	_filter["group_type"] = filters["group_type"]
+        if _first_name is not None and _first_name != "":
+        	_filter["first_name"] = _first_name
+        if _last_name is not None and _last_name != "":
+        	_filter["last_name"] = _last_name
+        if _dob is not None and _dob != "":
+        	_filter["dob"] = _dob
+        if _nationality is not None and _nationality != "":
+        	_filter["nationality"] = _nationality
+        if _group_type is not None and _group_type != "":
+        	_filter["group_type"] = _group_type
 
         if len(_filter) == 0:
         	return {"status": "error", "message": "please provide at least one valid filter"}
 
-        client = MongoClient(config.mongo['connection'])
-        db = client.aml
-        cursor = db.targets.find(_filter)[0:10]
+        try:
+        	client = DbService.mongodb_conn()
+        except pymongo.errors.PyMongoError as msg:
+        	return {"status": "error", "message": "could not connect to the aml database"}
+
+        print(client)
+
+        if client is None:
+        	return {"status": "error", "message": "could not connect to the aml database"}
+        	
+        try:
+        	db = client.aml
+       		cursor = db.targets.find(_filter)[0:10]
+       	except:
+        	return {"status": "error", "message": "could not retrieve data"}
 
         if cursor:
         	for target in cursor:
         		del target["_id"]
         		data.append(target)
-        		return {"status": "ok", "data": data}
+        	return {"status": "ok", "data": data}
         else:
         	return {"status": "error", "message": "error retrieving data"}
 
-api.add_resource(AmlService, '/')
+api.add_resource(AmlService, '/aml')
+api.add_resource(AmlClient, '/client')
 api.add_resource(ManifestService, '/manifest')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=config.debug)

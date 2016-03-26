@@ -31,7 +31,7 @@ definitions:
       other_info: {type: string}
       town_of_birth: {type: string}
     type: object
-host: 10.244.108.173:6003
+host: 10.244.115.98:5000
 version: 0.0.1
 info:
   contact: {email: elmurci@gmail.com, name: Javi Romero}
@@ -41,13 +41,11 @@ info:
   x-21-github-project-url: https://github.com/elmurci/aml-service
   x-21-keywords: [aml, anti money laundering]
   x-21-app-image: https://cdn.filepicker.io/api/file/too33igBTduTP5jwQiSl
-  x-21-quick-buy: "$ 21 buy url http://10.244.108.172:6003/?uri=google.com\n\n# Filters (at least one): \n\n # {\n#        \
-      \"first_name\": \"Peter\",\n#        \
-      \"last_name\": \"Jones\",\n#        \
-      \"nationality\": \"Afghan\",\n#        \
-      \"group_type\": \"Individual\",\n#        \
-      \"dob\": \"05/02/1981\"\n#        \
-  }\n\n#        \
+  x-21-quick-buy: "$ 21 buy url http://10.244.115.98:5000/aml?dob=05/02/1981\n\n# Filters (at least one): \n\n #
+  
+  first_name=Peter&last_name=Jones&nationality=Afghan&group_type=Individual&dob=05/02/1981
+
+  \n\n#        \
   Output:\n\n\
     # 
     {
@@ -88,8 +86,8 @@ info:
   }"
   x-21-total-price: {max: 1000, min: 1000}
 paths:
-  /:
-    post:
+  /aml:
+    get:
       consumes: [application/json]
       produces: [application/json]
       responses:
@@ -102,6 +100,20 @@ paths:
                 type: array
             type: object
       summary: Search the list of targets from the Government database.
+  /client:
+    get:
+      consumes: [application/json]
+      produces: [application/json]
+      responses:
+        200:
+          description: Client
+          schema:
+            properties:
+              data:
+                items: {$ref: '#/definitions/target'}
+                type: array
+            type: object
+      summary: Client to search the list of targets from the Government database.
 schemes: [http]
 swagger: '2.0'
 x-21-manifest-path: /manifest
