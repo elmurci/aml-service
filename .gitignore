@@ -33,3 +33,6 @@ node_modules
 
 # Config
 config.py
+
+# Python
+__pycache__/*
