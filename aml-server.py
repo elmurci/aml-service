@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import json
 import yaml
@@ -40,22 +42,23 @@ class AmlService(Resource):
     def post(self):
 
         # Get parameters
-        if not request.data:
+        if not request.json:
         	return {"status": "error", "message": "please provide at least one filter"}
 
-        filters = json.loads(request.data)
+        print(request.json)
+        filters =  request.json
         _filter = {}
         data = []
 
-        if "first_name" in request.data:
+        if "first_name" in request.json:
         	_filter["first_name"] = filters["first_name"]
-        if "last_name" in request.data:
+        if "last_name" in request.json:
         	_filter["last_name"] = filters["last_name"]
-        if "dob" in request.data:
+        if "dob" in request.json:
         	_filter["dob"] = filters["dob"]
-        if "nationality" in request.data:
+        if "nationality" in request.json:
         	_filter["nationality"] = filters["nationality"]
-        if "group_type" in request.data:
+        if "group_type" in request.json:
         	_filter["group_type"] = filters["group_type"]
 
         if len(_filter) == 0:

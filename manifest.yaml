@@ -1,14 +1,38 @@
 basePath: /
 definitions:
-  Server:
+  target:
     properties:
-      city: {type: string}
-      provider: {type: string}
-      public_ip: {type: string}
-      state: {type: string}
-      zip_code: {type: string}
+      address_1: {type: string}
+      address_2: {type: string}
+      address_3: {type: string}
+      address_4: {type: string}
+      address_5: {type: string}
+      address_6: {type: string}
+      country: {type: string}
+      country_of_birth: {type: string}
+      dob: {type: string}
+      group_id: {type: string}
+      group_type: {type: string}
+      last_updated: {type: string}
+      listed_on: {type: string}
+      nationality: {type: string}
+      nin: {type: string}
+      passport: {type: string}
+      position: {type: string}
+      postcode: {type: string}
+      regime: {type: string}
+      title: {type: string}
+      first_name: {type: string}
+      last_name: {type: string}
+      second_name: {type: string}
+      third_name: {type: string}
+      fourth_name: {type: string}
+      fifth_name: {type: string}
+      other_info: {type: string}
+      town_of_birth: {type: string}
     type: object
 host: 10.244.108.173:6003
+version: 0.0.1
 info:
   contact: {email: elmurci@gmail.com, name: Javi Romero}
   description: Query the Consolidated list of targets from the UK Government (https://www.gov.uk/government/publications/financial-sanctions-consolidated-list-of-targets/consolidated-list-of-targets)
@@ -16,53 +40,66 @@ info:
   x-21-category: utilities
   x-21-github-project-url: https://github.com/elmurci/aml-service
   x-21-keywords: [aml, anti money laundering]
-  x-21-quick-buy: "$ 21 buy url http://10.244.108.172:6003/?uri=google.com\n\n# Output:\n\
-    # {  \n#     \"server\":{  \n#         \"city\":\"San Francisco\",\n#        \
-    \ \"country\":\"US\",\n#         \"hostname\":\"10-21-28-12.static.wiline.com\"\
-    ,\n#         \"ip\":\"10.21.28.12\",\n#         \"loc\":\"37.7749,-122.4194\"\
-    ,\n#         \"org\":\"AS33544 WiLine Networks Inc.\",\n#         \"postal\":\"\
-    94158\",\n#         \"region\":\"California\"\n#     },\n#     \"traceroute\"\
-    :[  \n#         \"traceroute to google.com (172.217.1.46), 30 hops max, 60 byte\
-    \ packets\",\n#         \" 1  192.168.128.1 (192.168.128.1)  0.496 ms  0.343 ms\
-    \  0.235 ms\",\n#         \" 2  10-21-28-12.static.wiline.com (10.21.28.12)  11.196\
-    \ ms  11.562 ms  11.692 ms\",\n#         \" 3  10-21-28-12.static.wiline.com (10.21.28.12)\
-    \  11.272 ms  11.386 ms  11.678 ms\",\n#         \" 4  10.20.91.17 (10.20.91.17)\
-    \  16.580 ms  17.269 ms  18.038 ms\",\n#         \" 5  10.20.91.30 (10.20.91.30)\
-    \  11.177 ms  11.732 ms  11.821 ms\",\n#         \" 6  sfosf0077ra90101-v20.wiline.com\
-    \ (216.75.229.1)  11.842 ms  11.820 ms  12.240 ms\",\n#         \" 7  216-75-229-9.static.wiline.com\
-    \ (216.75.229.9)  11.430 ms  11.637 ms  11.331 ms\",\n#         \" 8  10.20.50.114\
-    \ (10.20.50.114)  11.740 ms  11.844 ms  11.997 ms\",\n#         \" 9  10.20.50.109\
-    \ (10.20.50.109)  11.525 ms  11.666 ms  11.645 ms\",\n#         \"10  10.21.42.22\
-    \ (10.21.42.22)  12.361 ms  12.723 ms  13.128 ms\",\n#         \"11  10.20.186.237\
-    \ (10.20.186.237)  12.070 ms  12.054 ms  12.531 ms\",\n#         \"12  xe-3-2-1.mpr3.sfo7.us.above.net\
-    \ (208.184.37.89)  11.629 ms  11.537 ms  12.243 ms\",\n#         \"13  ae1.mpr4.sfo7.us.zip.zayo.com\
-    \ (64.125.31.30)  12.290 ms  31.622 ms  30.234 ms\",\n#         \"14  ae5.cr2.sjc2.us.zip.zayo.com\
-    \ (64.125.26.21)  13.252 ms  13.161 ms  13.071 ms\",\n#         \"15  ae16.mpr4.sjc7.us.zip.zayo.com\
-    \ (64.125.31.15)  12.980 ms  13.435 ms  13.334 ms\",\n#         \"16  64.125.13.111\
-    \ (64.125.13.111)  13.937 ms  14.163 ms  13.993 ms\",\n#         \"17  216.239.49.168\
-    \ (216.239.49.168)  14.769 ms  14.714 ms  14.767 ms\",\n#         \"18  209.85.246.38\
-    \ (209.85.246.38)  15.247 ms 209.85.249.63 (209.85.249.63)  15.271 ms 209.85.246.20\
-    \ (209.85.246.20)  15.000 ms\",\n#         \"19  64.233.174.206 (64.233.174.206)\
-    \  22.349 ms  22.253 ms 64.233.174.204 (64.233.174.204)  22.155 ms\",\n#     \
-    \    \"20  209.85.248.124 (209.85.248.124)  21.701 ms  22.157 ms  22.066 ms\"\
-    ,\n#         \"21  209.85.252.149 (209.85.252.149)  22.482 ms  22.397 ms  22.727\
-    \ ms\",\n#         \"22  lax17s01-in-f14.1e100.net (172.217.1.46)  21.690 ms \
-    \ 22.110 ms  22.015 ms\"\n#     ]\n# }"
+  x-21-app-image: https://cdn.filepicker.io/api/file/too33igBTduTP5jwQiSl
+  x-21-quick-buy: "$ 21 buy url http://10.244.108.172:6003/?uri=google.com\n\n# Filters (at least one): \n\n # {\n#        \
+      \"first_name\": \"Peter\",\n#        \
+      \"last_name\": \"Jones\",\n#        \
+      \"nationality\": \"Afghan\",\n#        \
+      \"group_type\": \"Individual\",\n#        \
+      \"dob\": \"05/02/1981\"\n#        \
+  }\n\n#        \
+  Output:\n\n\
+    # 
+    {
+    \"data\": [\n#        \
+        {
+            \"address_1\": \"\",\n#        \
+            \"address_2\": \"\",\n#        \
+            \"address_3\": \"\",\n#        \
+            \"address_4\": \"\",\n#        \
+            \"address_5\": \"\",\n#        \
+            \"address_6\": \"\",\n#        \
+            \"alias_type\": \"Prime Alias\",\n#        \
+            \"country\": \"\",\n#        \
+            \"country_of_birth\": \"\",\n#        \
+            \"dob\": \"05/02/1981\",\n#        \
+            \"fifth_name\": \"\",\n#        \
+            \"first_name\": \"Said Jan\",\n#        \
+            \"fourth_name\": \"\",\n#        \
+            \"group_id\": \"11634\",\n#        \
+            \"group_type\": \"Individual\",\n#        \
+            \"last_name\": \"'ABD AL-SALAM\",\n#        \
+            \"last_updated\": \"28/02/2011\",\n#        \
+            \"listed_on\": \"28/02/2011\",\n#        \
+            \"nationality\": \"Afghan\",\n#        \
+            \"nin\": \"281020505755  (Kuwaiti Civil ID no) under name Said Jan 'Abd al-Salam\",\n#        \
+            \"other_info\": \"UN Ref QI.A.289.11. In approximately 2005, ran a 'basic training' camp for Al-Qaida in Pakistan. Also referred to as Said Jhan and Nangiali.\",\n#        \
+            \"passport\": \"(1) OR801168 (Afghan). Issued on 28 Feb 2006. Expires 27 Feb 2011 under name Said Jan 'Abd al-Salam (2) 4117921 (Pakistani). Issued on 9 Sept 2008. Expires 9 Sept 2013 under name Dilawar Khan Zain Khan (DOB 1 Jan 1972)\",\n#        \
+            \"position\": \"\",\n#        \
+            \"postcode\": \"\",\n#        \
+            \"regime\": \"The ISIL (Da'esh) and Al-Qaida organisations\",\n#        \
+            \"second_name\": \"\",\n#        \
+            \"third_name\": \"\",\n#        \
+            \"title\": \"\",\n#        \
+            \"town_of_birth\": \"\"\n#        \
+        }\n#        \
+    ],\n#        \
+    \"status\": \"ok\"
+  }"
   x-21-total-price: {max: 1000, min: 1000}
 paths:
   /:
-    get:
-      consumes: [application/x-www-form-urlencoded]
+    post:
+      consumes: [application/json]
       produces: [application/json]
       responses:
         200:
           description: List of targets found
           schema:
             properties:
-              ping:
-                items: {type: string}
+              data:
+                items: {$ref: '#/definitions/target'}
                 type: array
-              server: {$ref: '#/definitions/Server'}
             type: object
       summary: Search the list of targets from the Government database.
 schemes: [http]
