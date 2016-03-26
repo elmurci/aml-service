@@ -1,6 +1,7 @@
 import os
 import json
 import yaml
+import config
 from flask import Flask, request, abort, jsonify
 from flask_restful import Resource, Api
 from pymongo import MongoClient
@@ -35,10 +36,10 @@ class ManifestService(Resource):
 	    return json.dumps(manifest_yaml)
 
 class AmlService(Resource):
-    #@payment.required(1000)
+    @payment.required(config.payment['fee'])
     def post(self):
-        # Get parameters
 
+        # Get parameters
         if not request.data:
         	return {"status": "error", "message": "please provide at least one filter"}
 
@@ -60,7 +61,7 @@ class AmlService(Resource):
         if len(_filter) == 0:
         	return {"status": "error", "message": "please provide at least one valid filter"}
 
-        client = MongoClient('mongodb://aml:aml@ds013559.mlab.com:13559/aml')
+        client = MongoClient(config.mongo['connection'])
         db = client.aml
         cursor = db.targets.find(_filter)[0:10]
 

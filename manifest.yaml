@@ -10,12 +10,12 @@ definitions:
     type: object
 host: 10.244.108.173:6003
 info:
-  contact: {email: nakamoto@nakamoto.com, name: Satoshi Nakamoto}
-  description: Run a traceroute on demand for bitcoin.
-  title: Bitroute
+  contact: {email: elmurci@gmail.com, name: Javi Romero}
+  description: Query the Consolidated list of targets from the UK Government (https://www.gov.uk/government/publications/financial-sanctions-consolidated-list-of-targets/consolidated-list-of-targets)
+  title: AML Service
   x-21-category: utilities
-  x-21-github-project-url: https://github.com/21dotco/bitroute
-  x-21-keywords: [traceroute, network]
+  x-21-github-project-url: https://github.com/elmurci/aml-service
+  x-21-keywords: [aml, anti money laundering]
   x-21-quick-buy: "$ 21 buy url http://10.244.108.172:6003/?uri=google.com\n\n# Output:\n\
     # {  \n#     \"server\":{  \n#         \"city\":\"San Francisco\",\n#        \
     \ \"country\":\"US\",\n#         \"hostname\":\"10-21-28-12.static.wiline.com\"\
@@ -56,7 +56,7 @@ paths:
       produces: [application/json]
       responses:
         200:
-          description: Traceroute statistics and information on server location.
+          description: List of targets found
           schema:
             properties:
               ping:
@@ -64,8 +64,7 @@ paths:
                 type: array
               server: {$ref: '#/definitions/Server'}
             type: object
-      summary: Return traceroute statistics between this device and a given domain
-        or IP.
+      summary: Search the list of targets from the Government database.
 schemes: [http]
 swagger: '2.0'
 x-21-manifest-path: /manifest
